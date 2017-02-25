@@ -95,8 +95,8 @@ document.addEventListener 'DOMContentLoaded', ->
       slideSize = getSlideSize()
 
       opts.exportSize =
-        width:  Math.floor(slideSize.w * 25400 / 96)
-        height: Math.floor(slideSize.h * 25400 / 96)
+        width:  Math.ceil(slideSize.w * 25400 / 96)
+        height: Math.ceil(slideSize.h * 25400 / 96)
 
       # Load slide resources
       $('body').addClass 'to-pdf'

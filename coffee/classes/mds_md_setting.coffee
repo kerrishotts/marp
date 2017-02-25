@@ -22,7 +22,7 @@ module.exports = class MdsMdSetting
         else if m[2] is 'pc'
           val = val * 16
 
-      Math.floor(val) || undefined
+      Math.ceil(val) || undefined
 
   @transformers:
     page_number: MdsMdSetting.generalTransfomer.bool

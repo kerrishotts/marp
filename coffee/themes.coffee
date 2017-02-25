@@ -12,6 +12,10 @@ module.exports = [
     label: '&Evening'
   }
   {
+    id: 'elegant',
+    label: 'E&legant'
+  }
+  {
     id: 'packt',
     label: '&Packt'
   }
