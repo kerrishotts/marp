@@ -86,6 +86,8 @@ document.addEventListener 'DOMContentLoaded', ->
       md.changedTheme = themes.apply md.settings.getGlobal('theme')
 
       $('#markdown').html(md.parsed)
+      if (typeof Prism != "undefined")
+        Prism.highlightAll(true)
 
       ipc.sendToHost 'rendered', md
       ipc.sendToHost 'rulerChanged', md.rulers if md.rulerChanged

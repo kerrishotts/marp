@@ -52,6 +52,7 @@
     "markdown-it-footnote": "^3.0.1",
     "markdown-it-katex": "^2.0.1",
     "markdown-it-mark": "^2.0.0",
+    "markdown-it-prism": "^1.0.1",
     "markdown-it-sup-alt": "^1.0.2",
     "path": "^0.12.7",
     "photon": "github:connors/photon",

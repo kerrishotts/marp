@@ -10,15 +10,17 @@ module.exports = class MdsMarkdown
   @slideTagOpen:  (page) -> '<div class="slide_wrapper" id="' + page + '"><div class="slide"><div class="slide_bg"></div><div class="slide_inner">'
   @slideTagClose: (page) -> '</div><footer class="slide_footer"></footer><span class="slide_page" data-page="' + page + '">' + page + '</span></div></div>'
 
-  @highlighter: (code, lang) ->
-    if lang?
-      if lang == 'text' or lang == 'plain'
-        return ''
-      else if highlightJs.getLanguage(lang)
-        try
-          return highlightJs.highlight(lang, code).value
-
-    highlightJs.highlightAuto(code).value
+#
+#  @highlighter: (code, lang) ->
+#    if lang?
+#      if lang == 'text' or lang == 'plain'
+#        return ''
+#      else if highlightJs.getLanguage(lang)
+#        try
+#          return highlightJs.highlight(lang, code).value
+#
+#    highlightJs.highlightAuto(code).value
+#
 
   @default:
     options:
@@ -26,16 +28,19 @@ module.exports = class MdsMarkdown
       xhtmlOut: true
       breaks: true
       linkify: true
-      highlight: @highlighter
+      typographer: true
+#      highlight: @highlighter
 
     plugins:
       'markdown-it-mark': {}
       'markdown-it-emoji':
         shortcuts: {}
-      'markdown-it-katex': {},
-      'markdown-it-decorate': {},
-      'markdown-it-footnote': {},
+      'markdown-it-katex': {}
+      'markdown-it-footnote': {}
       'markdown-it-sup-alt': {}
+      'markdown-it-prism':
+        plugins: ["command-line", "line-numbers", "line-highlight", "show-language"]
+      'markdown-it-decorate': {}
 
     twemoji:
       base: Path.resolve(__dirname, '../../node_modules/twemoji/2') + Path.sep
@@ -114,6 +119,7 @@ module.exports = class MdsMarkdown
     defaultRenderers =
       image:      rules.image
       html_block: rules.html_block
+      fence:      rules.fence
 
     extend rules,
       emoji: (token, idx) =>
@@ -130,6 +136,10 @@ module.exports = class MdsMarkdown
       html_block: (args...) =>
         @renderers.html_block.apply(@, args)
         defaultRenderers.html_block.apply(@, args)
+
+      fence: (args...) =>
+        @renderers.before_fence.apply(@, args)
+        @renderers.after_fence.apply(@, [defaultRenderers.fence.apply(@, args)])
 
   parse: (markdown) =>
     @_rulers          = []
@@ -152,6 +162,32 @@ module.exports = class MdsMarkdown
     ret
 
   renderers:
+    before_fence: (tokens, idx, options, env, self) ->
+      token = tokens[idx]
+      if token.info
+        info = token.info.split(/\s+/g).map((i) => i.toLowerCase())
+        info.shift()  # we don't care about the first info, which is language
+        infoStr = info.join(' ');
+        if !token.attrs
+          token.attrs = []
+        i = token.attrIndex('data-info')
+        if (i < 0)
+          token.attrs.push(['data-info', infoStr])
+        else
+          token.attrs[i][1] += ' ' + infoStr
+
+    after_fence: (html) ->
+      preAttrs = ""
+      preAttrs += 'class="line-numbers"' if html.match(/data-info="[^"]*number.*"/)
+      preAttrs += 'data-line="' + m[1] + '"' if m=html.match(/data-info="[^"]*highlight=([\d|,|\-]*).*"/)
+      preAttrs += 'data-line-offset="' + m[1] + '"' if m=html.match(/data-info="[^"]*offset=([\d]*).*"/)
+      preAttrs += 'class="command-line"' if html.match(/data-info="[^"]*cli.*"/)
+      preAttrs += 'data-user="' + m[1] + '"' if m=html.match(/data-info="[^"]*user=([^"|^\s]*).*"/)
+      preAttrs += 'data-host="' + m[1] + '"' if m=html.match(/data-info="[^"]*host=([^"|^\s]*).*"/)
+      preAttrs += 'data-prompt="' + m[1] + '"' if m=html.match(/data-info="[^"]*prompt=([^"|^\s]*).*"/)
+      preAttrs += 'data-output="' + m[1] + '"' if m=html.match(/data-info="[^"]*output=([\d|,|\-]*).*"/)
+      html.replace(/^<pre>/, "<pre " + preAttrs + ">")
+
     image: (tokens, idx, options, env, self) ->
       src = decodeURIComponent(tokens[idx].attrs[tokens[idx].attrIndex('src')][1])
       tokens[idx].attrs[tokens[idx].attrIndex('src')][1] = src if exist(src)
