@@ -7,7 +7,7 @@
  */
 
 @import './markdown'
-@import '../../node_modules/highlight.js/styles/monokai'
+@import '../../node_modules/prismjs/themes/prism-okaidia.css'
 @import url(https://fonts.googleapis.com/css?family=Raleway)
 @import url(https://fonts.googleapis.com/css?family=Fira+Mono:400,500,700)
 @import url(https://fonts.googleapis.com/css?family=Playball)
@@ -153,10 +153,27 @@
       overflow: auto
       margin: 0
 
+      &[class*="language-"]
+        padding: 0
+
+      &.line-numbers
+        padding-left: 3.8em
+
+      &[data-line]
+        padding: 0 0 0 3em
+
+      .line-highlight
+        background: var(--code-text-color);
+        opacity: 0.25
+        margin-top: 0
+
       code
         display: block
         margin: 0
-        font-size: 0.9em
+
+        span.command-line-prompt
+          span:last-child
+            display: none
 
     ul, ol
       > li
@@ -206,6 +223,7 @@
 
     pre
       color: var(--code-text-color)
+      background-color: var(--code-background-color)
 
     blockquote
       &::after, &::before
