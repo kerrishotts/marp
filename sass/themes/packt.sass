@@ -141,12 +141,29 @@
     pre
       overflow: auto
       line-height: 1.5
+      margin: 0
+
+      &[class*="language-"]
+        padding: 0
+
+      &.line-numbers
+        padding-left: 3.8em
+
+      &[data-line]
+        padding: 0 0 0 3em
+
+      .line-highlight
+        background: var(--code-text-color);
+        opacity: 0.25
+        margin-top: 0
 
       code
         display: block
         margin: 0
-        padding: 0.5em 0.75em
-        font-size: 0.9em
+
+        span.command-line-prompt
+          span:last-child
+            display: none
 
     ul, ol
       > li
@@ -289,3 +306,6 @@
 @media print
   body
     background-color: hsl(0, 3%, 14%);
+
+pre code .token.operator, pre code .token.entity, pre code .token.url, pre code .language-css pre code .token.string, pre code .style .token.string
+  background-color: inherit
