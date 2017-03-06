@@ -1,5 +1,5 @@
 /*
- * Evening - Marp slide theme.
+ * Elegant - Marp slide theme.
  * Based on Gaia Copyright (C) 2016 Yuki Hattori.
  *
  * Gaia was inspired by AZUSA Keynote templates (by @sanographix).
@@ -20,31 +20,6 @@
   @return unquote('hsla(#{$h}, #{$s}, #{$l}, #{$a})')
 
 +body-slide-mode
-  --slide-bg-color: hsl(200, 5%, 15%);
-  --slide-text-color: hsl(200, 5%, 85%);
-  --slide-text-strong-color: white;
-  --slide-text-em-color: white;
-  --slide-text-heading-color: hsl(195, 75%, 66%);
-  --slide-text-title-color: white;
-
-  --code-bg-color: var(--slide-bg-color);
-  --code-text-color: var(--slide-text-color);
-
-  --link-color: hsl(200, 75%, 75%);
-  --quote-color: var(--slide-text-color);
-  --big-quote-color: var(--slide-text-heading-color);
-
-  --thead-bg-color: hsl(160, 75%, 35%);
-  --thead-text-color: white;
-  --table-border-color: hsl(160, 75%, 35%);
-  --table-odd-bg-color: rgba(255, 255, 255, 0.03265);
-
-  --text-font-family: 'Raleway', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  --title-font-family: 'Playball', serif;
-  --heading-font-family: 'Simonetta', serif;
-  --quote-font-family: var(--text-font-family);
-  --big-quote-font-family: 'Playball', serif;
-  --code-font-family: 'Fira Mono', 'Roboto Mono', 'Menlo', 'Courier New', Courier, monospace;
 
   .markdown-body
     font-size: calc(0.045px * var(--slide-height))
@@ -59,7 +34,37 @@
     font-size: calc(0.025px * var(--slide-height))
 
   .slide_wrapper
+    --hue: 195;
+    --slide-bg-color: hsl(var(--hue), 5%, 15%);
+    --slide-text-color: hsl(var(--hue), 5%, 85%);
+    --slide-text-strong-color: white;
+    --slide-text-em-color: white;
+    --slide-text-heading-color: hsl(var(--hue), 75%, 66%);
+    --slide-hr-color: hsl(var(--hue), 75%, 66%);
+    --slide-text-title-color: white;
+
+    --code-bg-color: var(--slide-bg-color);
+    --code-text-color: var(--slide-text-color);
+
+    --link-color: hsl(var(--hue), 75%, 75%);
+    --quote-color: var(--slide-text-color);
+    --big-quote-color: var(--slide-text-heading-color);
+
+    --thead-bg-color: hsl(var(--hue), 75%, 35%);
+    --thead-text-color: white;
+    --table-border-color: hsl(var(--hue), 35%, 35%);
+    --table-odd-bg-color: hsla(var(--hue), 75%, 35%, 0.125);
+
+
+    --text-font-family: 'Raleway', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    --title-font-family: 'Playball', serif;
+    --heading-font-family: 'Simonetta', serif;
+    --quote-font-family: var(--text-font-family);
+    --big-quote-font-family: 'Playball', serif;
+    --code-font-family: 'Fira Mono', 'Roboto Mono', 'Menlo', 'Courier New', Courier, monospace;
+
     color: var(--slide-text-color)
+    font-family: var(--text-font-family)
     background-color: var(--slide-bg-color)
 
     > .slide
@@ -89,7 +94,7 @@
       left: 0
       right: 0
       bottom: 0
-      border-top: 1px solid white
+      border-top: 1px solid var(--slide-hr-color)
       padding: 0.5em
       font-size: 50%
 
@@ -115,6 +120,7 @@
 
     &.only-headings
       h1, h2, h3, h4, h5, h6
+        text-shadow: 0 0 10px var(--slide-bg-color);
         text-align: center
       h1
         font-family: var(--title-font-family)
@@ -243,26 +249,36 @@
           td, th
             background: var(--table-odd-bg-color)
 
-    &[data-template~="invert"]
-      --slide-bg-color: hsl(200, 5%, 95%);
-      --slide-text-color: hsl(200, 5%, 15%);
-      --slide-text-strong-color: hsl(200, 5%, 5%);
-      --slide-text-em-color: hsl(200, 5%, 5%);
-      --slide-text-heading-color: hsl(200, 75%, 50%);
-      --slide-text-title-color: hsl(200, 5%, 5%);
+    &[data-template~="light"]
+      --slide-bg-color: hsl(var(--hue), 5%, 95%);
+      --slide-text-color: hsl(var(--hue), 5%, 15%);
+      --slide-text-strong-color: hsl(var(--hue), 5%, 5%);
+      --slide-text-em-color: hsl(var(--hue), 5%, 5%);
+      --slide-text-heading-color: hsl(var(--hue), 75%, 50%);
+      --slide-text-title-color: hsl(var(--hue), 5%, 5%);
       --code-bg-color: var(--slide-bg-color);
       --code-text-color: var(--slide-text-color);
-      --link-color: hsl(200, 75%, 33%);
+      --link-color: hsl(var(--hue), 75%, 33%);
       --quote-color: var(--slide-text-color);
       --big-quote-color: var(--slide-text-heading-color);
-      --thead-bg-color: hsl(200, 75%, 35%);
+      --thead-bg-color: hsl(var(--hue), 75%, 35%);
       --thead-text-color: white;
-      --table-border-color: hsl(200, 35%, 35%);
-      --table-odd-bg-color: hsla(200, 75%, 35%, 0.05);
+      --table-border-color: hsl(var(--hue), 35%, 35%);
+      --table-odd-bg-color: hsla(var(--hue), 75%, 35%, 0.05);
+
+    &[data-template~="pink"]
+      --hue: 320;
+
+    &[data-template~="amber"]
+      --hue: 40;
+
+    &[data-template~="purple"]
+      --hue: 260;
+
 
 @media print
   html, body
-    background-color: hsl(200, 5%, 15%)
+    background-color: black
 
 pre code .token.operator, pre code .token.entity, pre code .token.url, pre code .language-css pre code .token.string, pre code .style .token.string
   background-color: inherit
