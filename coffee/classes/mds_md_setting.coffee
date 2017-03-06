@@ -31,6 +31,7 @@ module.exports = class MdsMdSetting
     theme: (v) ->
       basename = path.basename(v)
       return if basename in themes.map((theme) -> theme.id) then "css/themes/#{basename}.css" else v
+    prism: (v) -> v
     template: (v) -> v
     footer: (v) -> v
     prerender: MdsMdSetting.generalTransfomer.bool
@@ -99,7 +100,7 @@ module.exports = class MdsMdSetting
     null
 
   @validProps:
-    global: ['width', 'height', 'size', 'theme']
+    global: ['width', 'height', 'size', 'theme', 'prism']
     page:   ['page_number', 'template', 'footer', 'prerender']
 
   @isValidProp: (page, prop) =>

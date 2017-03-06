@@ -7,6 +7,8 @@ resolvePathFromMarp = (path = './') -> Path.resolve(__dirname, '../', path)
 document.addEventListener 'DOMContentLoaded', ->
   $ = window.jQuery = window.$ = require('jquery')
 
+  timerid = undefined
+
   do ($) ->
     # First, resolve Marp resources path
     $("[data-marp-path-resolver]").each ->
@@ -27,6 +29,18 @@ document.addEventListener 'DOMContentLoaded', ->
 
         return toApply.match(/([^\/]+)\.css$/)[1]
       false
+
+    setPrismTheme = (theme) ->
+      el = $('#prism-theme')
+      cur = el.attr('href')
+
+      if (!theme)
+        theme = "okaidia"
+
+      if (theme)
+        next = resolvePathFromMarp('node_modules/prismjs/themes/prism-' + theme + '.css')
+        if next isnt cur
+          el.attr('href', next)
 
     setStyle = (identifier, css) ->
       id  = "mds-#{identifier}Style"
@@ -84,10 +98,14 @@ document.addEventListener 'DOMContentLoaded', ->
     render = (md) ->
       applySlideSize md.settings.getGlobal('width'), md.settings.getGlobal('height')
       md.changedTheme = themes.apply md.settings.getGlobal('theme')
+      setPrismTheme(md.settings.getGlobal('prism'))
 
       $('#markdown').html(md.parsed)
+
       if (typeof Prism != "undefined")
-        Prism.highlightAll(true)
+        if (timerid)
+          clearTimeout(timerid)
+        timerid = setTimeout((-> Prism.highlightAll(true)), 1000)
 
       ipc.sendToHost 'rendered', md
       ipc.sendToHost 'rulerChanged', md.rulers if md.rulerChanged
