@@ -8,10 +8,9 @@
 
 @import './markdown'
 @import '../../node_modules/prismjs/themes/prism-okaidia.css'
-@import url(https://fonts.googleapis.com/css?family=Raleway)
+@import url(https://fonts.googleapis.com/css?family=Elsie)
+@import url(https://fonts.googleapis.com/css?family=Lato)
 @import url(https://fonts.googleapis.com/css?family=Fira+Mono:400,500,700)
-@import url(https://fonts.googleapis.com/css?family=Playball)
-@import url(https://fonts.googleapis.com/css?family=Simonetta)
 
 @function hsl($h, $s, $l)
   @return unquote('hsl(#{$h}, #{$s}, #{$l})')
@@ -42,6 +41,7 @@
     --slide-text-heading-color: hsl(var(--hue), 75%, 66%);
     --slide-hr-color: hsl(var(--hue), 75%, 66%);
     --slide-text-title-color: white;
+    --slide-title-banner-color: hsla(var(--hue), 5%, 15%, 0.33);
 
     --code-bg-color: var(--slide-bg-color);
     --code-text-color: var(--slide-text-color);
@@ -56,11 +56,11 @@
     --table-odd-bg-color: hsla(var(--hue), 75%, 35%, 0.125);
 
 
-    --text-font-family: 'Raleway', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-    --title-font-family: 'Playball', serif;
-    --heading-font-family: 'Simonetta', serif;
+    --text-font-family: 'Lato', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    --title-font-family: 'Elsie', serif;
+    --heading-font-family: 'Lato', serif;
     --quote-font-family: var(--text-font-family);
-    --big-quote-font-family: 'Playball', serif;
+    --big-quote-font-family: 'Elsie', serif;
     --code-font-family: 'Fira Mono', 'Roboto Mono', 'Menlo', 'Courier New', Courier, monospace;
 
     color: var(--slide-text-color)
@@ -105,7 +105,7 @@
       color: var(--slide-text-em-color)
 
     h1
-      border-bottom: 0.25rem solid currentColor
+      border-bottom: 0.4rem solid currentColor
 
     h1, h2, h3, h4
       font-weight: bold
@@ -118,16 +118,30 @@
       color: var(--slide-text-heading-color)
       font-family: var(--heading-font-family)
 
+      &.bold
+        font-weight: bold
+
+      &.light
+        font-weight: normal
+
     &.only-headings
       h1, h2, h3, h4, h5, h6
-        text-shadow: 0 0 10px var(--slide-bg-color);
         text-align: center
+        color: var(--slide-text-color)
+
       h1
+        border-bottom: none
+        padding: 0.5em 0
+        position: relative
+        width: calc(100% + 2.5in)
+        left: -1.25in
+        background-color: var(--slide-title-banner-color)
         font-family: var(--title-font-family)
         color: var(--slide-text-title-color)
         border: none;
         font-weight: normal
-        font-size: 2em
+        font-size: 2.5em
+        line-height: normal
 
     h1
       font-size: 1.8em
@@ -211,6 +225,8 @@
         border-width: 1px
         border-style: solid
 
+        table.no-border &
+          border: 0 !important;
 
     > .slide
       background-color: var(--slide-bg-color)
@@ -256,6 +272,7 @@
       --slide-text-em-color: hsl(var(--hue), 5%, 5%);
       --slide-text-heading-color: hsl(var(--hue), 75%, 50%);
       --slide-text-title-color: hsl(var(--hue), 5%, 5%);
+      --slide-title-banner-color: hsla(var(--hue), 5%, 95%, 0.33);
       --code-bg-color: var(--slide-bg-color);
       --code-text-color: var(--slide-text-color);
       --link-color: hsl(var(--hue), 75%, 33%);
